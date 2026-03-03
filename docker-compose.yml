@@ -1,0 +1,57 @@
+version: '3.8'
+services:
+  mysql:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: tp_nest
+      MYSQL_USER: tp_nest_user
+      MYSQL_PASSWORD: motdepassedefou123
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./back/src/database/bdd.sql:/docker-entrypoint-initdb.d/bdd.sql
+      - mysqldata:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: tp_nest_user
+      PMA_PASSWORD: motdepassedefou123
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql
+
+  backend:
+    image: node:latest
+    working_dir: /app
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: tp_nest_user
+      DB_PASSWORD: motdepassedefou123
+      DB_NAME: tp_nest
+    volumes:
+      - ./back:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mysql
+    command: sh -c "npm install && npm run start:dev"
+
+  frontend:
+    image: node:latest
+    working_dir: /app
+    volumes:
+      - ./front:/app
+    ports:
+      - "5173:5173"
+    command: sh -c "npm install && npm run dev -- --host"
+
+volumes:
+  mysqldata:
