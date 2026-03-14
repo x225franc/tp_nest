@@ -1,0 +1,100 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+:root {
+	--mc-primary: #410867;
+	--mc-surface: #23272a;
+	--mc-surface-2: #2c2f33;
+	--mc-border: #40444b;
+}
+
+html,
+body {
+	background: var(--mc-primary);
+
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+}
+
+#app {
+	width: 100%;
+	min-height: 100%;
+}
+
+.mc-page {
+	min-height: calc(100vh - 72px);
+	background: var(--mc-primary);
+	padding: 1.5rem 0;
+}
+
+.mc-card {
+	background: var(--mc-surface);
+	color: #fff;
+	border: 1px solid var(--mc-border);
+}
+
+.mc-card-soft {
+	background: var(--mc-surface-2);
+	color: #fff;
+	border: 1px solid var(--mc-border);
+}
+
+.mc-input,
+.mc-input:focus {
+	background: var(--mc-surface-2);
+	color: #fff;
+	border-color: var(--mc-border);
+	box-shadow: none;
+}
+
+.mc-input::placeholder {
+	color: #adb5bd;
+}
+
+.mc-text-muted {
+	color: #adb5bd !important;
+}
+
+.btn-mc-primary {
+	background-color: var(--mc-primary);
+	border-color: var(--mc-border);
+	color: #fff;
+}
+
+.btn-mc-primary:hover,
+.btn-mc-primary:focus {
+	background-color: #2d0548;
+	border-color: #2d0548;
+	color: #fff;
+}
+
+.modal-overlay-custom {
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.55);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 16px;
+	z-index: 1055;
+}
+
+.badge-mc {
+	background: var(--mc-primary);
+	color: #fff;
+}
+
+.cursor-pointer {
+	cursor: pointer;
+}
+
+.hover-bg:hover {
+	background: rgba(255, 255, 255, 0.05);
+}
+

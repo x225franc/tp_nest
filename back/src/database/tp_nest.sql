@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql:3306
--- Generation Time: Mar 03, 2026 at 03:47 PM
+-- Generation Time: Mar 14, 2026 at 12:36 PM
 -- Server version: 9.6.0
 -- PHP Version: 8.3.29
 
@@ -28,24 +28,11 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `messages` (
-  `id` INT NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL,
   `content` text NOT NULL,
-  `createdAt` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
-  `senderId` INT NOT NULL,
-  `roomId` INT NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `reactions`
---
-
-CREATE TABLE `reactions` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `emoji` varchar(255) NOT NULL,
-  `messageId` INT NOT NULL,
-  `userId` INT NOT NULL
+  `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `senderId` int NOT NULL,
+  `roomId` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -55,10 +42,11 @@ CREATE TABLE `reactions` (
 --
 
 CREATE TABLE `rooms` (
-  `id` INT NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL,
+  `ownerId` int NOT NULL,
   `name` varchar(255) DEFAULT NULL,
   `isPrivate` tinyint NOT NULL DEFAULT '0',
-  `createdAt` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6)
+  `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -68,10 +56,10 @@ CREATE TABLE `rooms` (
 --
 
 CREATE TABLE `room_members` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `userId` INT NOT NULL,
-  `roomId` INT NOT NULL,
-  `joinedAt` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  `id` int NOT NULL,
+  `userId` int NOT NULL,
+  `roomId` int NOT NULL,
+  `joinedAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `canSeeOldMessages` tinyint NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -82,13 +70,21 @@ CREATE TABLE `room_members` (
 --
 
 CREATE TABLE `users` (
-  `id` INT NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL,
   `username` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `passwordHash` varchar(255) NOT NULL,
-  `customColor` varchar(255) NOT NULL DEFAULT '#000000',
-  `createdAt` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6)
+  `customColor` varchar(255) NOT NULL DEFAULT '#ffffff',
+  `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `email`, `passwordHash`, `customColor`, `createdAt`) VALUES
+(1, 'admin', 'admin@admin.com', '$2a$10$Q0YekdFSgrbMiH0wdi05sOnUlOhpde2LioeKSrtksQZ6zHdLw31JS', '#eeff00', NOW()),
+(2, 'user', 'user@user.com', '$2a$10$Q0YekdFSgrbMiH0wdi05sOnUlOhpde2LioeKSrtksQZ6zHdLw31JS', '#008cff', NOW());
 
 --
 -- Indexes for dumped tables
@@ -101,14 +97,6 @@ ALTER TABLE `messages`
   ADD PRIMARY KEY (`id`),
   ADD KEY `FK_2db9cf2b3ca111742793f6c37ce` (`senderId`),
   ADD KEY `FK_aaa8a6effc7bd20a1172d3a3bc8` (`roomId`);
-
---
--- Indexes for table `reactions`
---
-ALTER TABLE `reactions`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `FK_da5948c8a32b4ff15065fad3072` (`messageId`),
-  ADD KEY `FK_f3e1d278edeb2c19a2ddad83f8e` (`userId`);
 
 --
 -- Indexes for table `rooms`
@@ -137,10 +125,28 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `reactions`
+-- AUTO_INCREMENT for table `messages`
 --
-ALTER TABLE `reactions`
+ALTER TABLE `messages`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `rooms`
+--
+ALTER TABLE `rooms`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `room_members`
+--
+ALTER TABLE `room_members`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
@@ -152,13 +158,6 @@ ALTER TABLE `reactions`
 ALTER TABLE `messages`
   ADD CONSTRAINT `FK_2db9cf2b3ca111742793f6c37ce` FOREIGN KEY (`senderId`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `FK_aaa8a6effc7bd20a1172d3a3bc8` FOREIGN KEY (`roomId`) REFERENCES `rooms` (`id`);
-
---
--- Constraints for table `reactions`
---
-ALTER TABLE `reactions`
-  ADD CONSTRAINT `FK_da5948c8a32b4ff15065fad3072` FOREIGN KEY (`messageId`) REFERENCES `messages` (`id`),
-  ADD CONSTRAINT `FK_f3e1d278edeb2c19a2ddad83f8e` FOREIGN KEY (`userId`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `room_members`
