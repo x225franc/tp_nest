@@ -14,10 +14,6 @@
 	const closeModal = () => {
 		isModalOpen.value = false;
 	};
-
-	if (window.history.replaceState) {
-		window.history.replaceState(null, null, window.location.href);
-	}
 </script>
 
 <template>
@@ -69,6 +65,26 @@
 						</li>
 						<li>
 							Chargement de l’historique des discussions au démarrage du chat.
+						</li>
+						<br>
+						<u>v2</u>
+						<li>
+							Inscription avec validation par email.
+						</li>
+						<li>
+							Authentification 2 facteur.
+						</li>
+						<li>
+							Réinitialisation du mot de passe.
+						</li>
+						<li>
+							Gestion d'endpoint public et privé avec guards dans le frontend et token jwt dans le backend.
+						</li>
+						<li>
+							Mise en place des Dto (incluse dans swagger).
+						</li>
+						<li>
+							Swagger sur <a href="http://localhost:1000/api" target="_blank">/api</a>.
 						</li>
 					</ul>
 				</div>

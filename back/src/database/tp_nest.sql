@@ -75,6 +75,11 @@ CREATE TABLE `users` (
   `email` varchar(255) NOT NULL,
   `passwordHash` varchar(255) NOT NULL,
   `customColor` varchar(255) NOT NULL DEFAULT '#ffffff',
+  `emailVerified` tinyint NOT NULL DEFAULT '0',
+  `emailToken` varchar(255) default NULL,
+  `passwordResetToken` varchar(255) default NULL,
+  `twoFactorEnabled` tinyint NOT NULL DEFAULT '0',
+  `twoFactorSecret` varchar(255) default NULL,
   `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -82,9 +87,9 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `email`, `passwordHash`, `customColor`, `createdAt`) VALUES
-(1, 'admin', 'admin@admin.com', '$2a$10$Q0YekdFSgrbMiH0wdi05sOnUlOhpde2LioeKSrtksQZ6zHdLw31JS', '#eeff00', NOW()),
-(2, 'user', 'user@user.com', '$2a$10$Q0YekdFSgrbMiH0wdi05sOnUlOhpde2LioeKSrtksQZ6zHdLw31JS', '#008cff', NOW());
+INSERT INTO `users` (`id`, `username`, `email`, `passwordHash`, `customColor`, `emailVerified`, `createdAt`) VALUES
+(1, 'admin', 'admin@admin.com', '$2a$10$Q0YekdFSgrbMiH0wdi05sOnUlOhpde2LioeKSrtksQZ6zHdLw31JS', '#eeff00', 1, NOW()),
+(2, 'user', 'user@user.com', '$2a$10$Q0YekdFSgrbMiH0wdi05sOnUlOhpde2LioeKSrtksQZ6zHdLw31JS', '#008cff', 1, NOW());
 
 --
 -- Indexes for dumped tables

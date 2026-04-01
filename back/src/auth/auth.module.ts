@@ -3,6 +3,7 @@ import { JwtModule } from "@nestjs/jwt";
 import { AuthService } from "./auth.service";
 import { AuthController } from "./auth.controller";
 import { DbService } from "../database/db.service";
+import { EmailService } from "./email.service";
 import { getRequiredEnv } from "../config/env";
 
 @Module({
@@ -12,7 +13,7 @@ import { getRequiredEnv } from "../config/env";
 			signOptions: { expiresIn: "7d" },
 		}),
 	],
-	providers: [AuthService, DbService],
+	providers: [AuthService, DbService, EmailService],
 	controllers: [AuthController],
 })
 export class AuthModule {}
